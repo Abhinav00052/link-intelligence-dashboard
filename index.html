@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Link Intelligence & Analytics Dashboard — A simulated client-side link telemetry and rule-based fraud risk assessment prototype developed at GLA University.">
+  <meta name="author" content="Abhinav Gautam (Roll: 2415000031), GLA University, Mathura">
+  <title>Link Intelligence & Analytics Dashboard | GLA University</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z'/></svg>">
+</head>
+<body class="dashboard-body">
+
+  <!-- ========================================================================= -->
+  <!-- APPLICATION SHELL: HEADER                                                  -->
+  <!-- ========================================================================= -->
+  <header class="app-header" role="banner">
+    <div class="header-left">
+      <button type="button" class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle navigation menu" aria-expanded="true">
+        <span class="hamburger-icon" aria-hidden="true">☰</span>
+      </button>
+      <div class="brand-container">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">Link Intelligence &amp; Analytics</h1>
+          <span class="brand-subtitle">Simulated Click Telemetry &amp; Rule-Based Fraud Detection</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Academic & Simulation Status Badges -->
+    <div class="header-center">
+      <div class="demo-badge-pill" role="status" title="This system operates completely in-browser without external tracking or real redirection.">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span class="badge-text">Demo Mode — Simulated Telemetry</span>
+      </div>
+      <div class="academic-chip" title="Academic Project attribution">
+        <span class="chip-label">GLA University</span>
+        <span class="chip-sep" aria-hidden="true">•</span>
+        <span class="chip-val">Roll: 2415000031</span>
+      </div>
+    </div>
+
+    <!-- Quick Simulation Controls -->
+    <div class="header-right">
+      <div class="quick-simulation-actions" role="toolbar" aria-label="Quick simulation controls">
+        <button type="button" class="btn btn-action-sm btn-burst" id="quickTrafficBurstBtn" title="Generate 25 simulated human and bot clicks">
+          <span class="btn-icon" aria-hidden="true">⚡</span>
+          <span class="btn-label">+25 Clicks</span>
+        </button>
+        <button type="button" class="btn btn-action-sm btn-bot-spike" id="quickBotSpikeBtn" title="Simulate an abnormal automated bot traffic surge">
+          <span class="btn-icon" aria-hidden="true">🤖</span>
+          <span class="btn-label">+15 Bot Spike</span>
+        </button>
+        <button type="button" class="btn btn-action-sm btn-reset" id="resetSimulationBtn" title="Reset all simulated traffic data to defaults">
+          <span class="btn-icon" aria-hidden="true">🔄</span>
+          <span class="btn-label">Reset Data</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- APPLICATION LAYOUT CONTAINER: SIDEBAR + MAIN CONTENT                       -->
+  <!-- ========================================================================= -->
+  <div class="app-layout">
+
+    <!-- ======================================================================= -->
+    <!-- SIDEBAR NAVIGATION MENU                                                 -->
+    <!-- ======================================================================= -->
+    <aside class="app-sidebar" id="appSidebar" role="navigation" aria-label="Dashboard Navigation">
+      <div class="sidebar-inner">
+        <div class="sidebar-section-title">Navigation</div>
+        <nav class="sidebar-nav">
+          <ul class="nav-list" role="menubar">
+            <li class="nav-item" role="none">
+              <a href="#overview" class="nav-link active" data-target="section-overview" role="menuitem" id="nav-overview">
+                <span class="nav-icon" aria-hidden="true">📊</span>
+                <span class="nav-text">Overview</span>
+              </a>
+            </li>
+            <li class="nav-item" role="none">
+              <a href="#link-management" class="nav-link" data-target="section-links" role="menuitem" id="nav-links">
+                <span class="nav-icon" aria-hidden="true">🔗</span>
+                <span class="nav-text">Link Management</span>
+              </a>
+            </li>
+            <li class="nav-item" role="none">
+              <a href="#link-analytics" class="nav-link" data-target="section-analytics" role="menuitem" id="nav-analytics">
+                <span class="nav-icon" aria-hidden="true">📈</span>
+                <span class="nav-text">Link Analytics</span>
+              </a>
+            </li>
+            <li class="nav-item" role="none">
+              <a href="#traffic-insights" class="nav-link" data-target="section-traffic" role="menuitem" id="nav-traffic">
+                <span class="nav-icon" aria-hidden="true">👥</span>
+                <span class="nav-text">Traffic Insights</span>
+              </a>
+            </li>
+            <li class="nav-item" role="none">
+              <a href="#fraud-risk" class="nav-link" data-target="section-risk" role="menuitem" id="nav-risk">
+                <span class="nav-icon" aria-hidden="true">🛡️</span>
+                <span class="nav-text">Fraud &amp; Risk</span>
+                <span class="nav-badge risk-indicator-pill" id="sidebarRiskBadge">Low</span>
+              </a>
+            </li>
+            <li class="nav-item" role="none">
+              <a href="#about-project" class="nav-link" data-target="section-about" role="menuitem" id="nav-about">
+                <span class="nav-icon" aria-hidden="true">ℹ️</span>
+                <span class="nav-text">About Project</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Sidebar Academic Attribution Card -->
+        <div class="sidebar-academic-card">
+          <div class="academic-card-header">
+            <span class="academic-badge-tag">Academic Project</span>
+          </div>
+          <div class="academic-info-block">
+            <div class="info-row">
+              <span class="info-label">Student:</span>
+              <span class="info-value">Abhinav Gautam</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Roll No:</span>
+              <span class="info-value">2415000031</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Module:</span>
+              <span class="info-value highlight">HTML + Dashboard UI</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Dept:</span>
+              <span class="info-value">CEA, GLA Univ.</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Mentor:</span>
+              <span class="info-value">Mr. Gagan Vishwakarma</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulation Engine Status Box -->
+        <div class="sidebar-status-box">
+          <div class="status-indicator-line">
+            <span class="status-dot green"></span>
+            <span class="status-label">Simulation Engine: <strong>Active</strong></span>
+          </div>
+          <p class="status-note">Client-side synthetic click generation enabled.</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ======================================================================= -->
+    <!-- MAIN DASHBOARD CONTENT AREA                                             -->
+    <!-- ======================================================================= -->
+    <main class="dashboard-main" id="mainContent" role="main">
+
+      <!-- Global Simulation Disclaimer Notice -->
+      <section class="demo-notice-banner" aria-label="Simulation notice">
+        <div class="banner-icon" aria-hidden="true">ℹ️</div>
+        <div class="banner-content">
+          <strong>Demo Mode Notice:</strong> All traffic, click telemetry, bot ratios, and analytics shown across this dashboard are simulated entirely within your browser. This application does not shorten real URLs, execute public HTTP redirections, or collect actual user browsing data.
+        </div>
+        <button type="button" class="banner-dismiss" id="dismissBannerBtn" aria-label="Dismiss banner">✕</button>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- SECTION 1: DASHBOARD OVERVIEW                                         -->
+      <!-- ===================================================================== -->
+      <section id="section-overview" class="dashboard-section active" aria-labelledby="heading-overview">
+        <div class="section-header">
+          <div>
+            <h2 id="heading-overview" class="section-title">Executive Overview</h2>
+            <p class="section-description">High-level telemetry summary of simulated links, visitor composition, and rule-based risk evaluation.</p>
+          </div>
+          <div class="section-actions">
+            <button type="button" class="btn btn-secondary btn-sm" id="refreshOverviewBtn">
+              <span class="btn-icon">⟳</span> Refresh Metrics
+            </button>
+            <a href="#link-management" class="btn btn-primary btn-sm nav-shortcut-btn" data-target="section-links">
+              <span class="btn-icon">➕</span> Create Demo Link
+            </a>
+          </div>
+        </div>
+
+        <!-- Metric Summary Cards Grid -->
+        <div class="metrics-grid">
+          
+          <!-- Card 1: Total Clicks -->
+          <article class="metric-card" id="cardTotalClicks">
+            <div class="metric-card-header">
+              <span class="metric-title">Total Clicks</span>
+              <span class="metric-icon" aria-hidden="true">🖱️</span>
+            </div>
+            <div class="metric-value-container">
+              <span class="metric-value" id="metricTotalClicks">1,482</span>
+              <span class="metric-trend positive" id="metricClicksTrend" title="Simulated change vs previous period">
+                <span class="trend-arrow">↑</span> +14.2%
+              </span>
+            </div>
+            <div class="metric-card-footer">
+              <span class="metric-subtext">Cumulative simulated interactions across all active links.</span>
+            </div>
+          </article>
+
+          <!-- Card 2: Human Traffic -->
+          <article class="metric-card" id="cardHumanTraffic">
+            <div class="metric-card-header">
+              <span class="metric-title">Human Traffic</span>
+              <span class="metric-icon" aria-hidden="true">👤</span>
+            </div>
+            <div class="metric-value-container">
+              <span class="metric-value" id="metricHumanTraffic">1,218</span>
+              <span class="metric-pill pill-human" id="metricHumanShare">82.2%</span>
+            </div>
+            <div class="metric-card-footer">
+              <span class="metric-subtext">Organic browsing behavior with standard session dwell times.</span>
+            </div>
+          </article>
+
+          <!-- Card 3: Bot Traffic -->
+          <article class="metric-card" id="cardBotTraffic">
+            <div class="metric-card-header">
+              <span class="metric-title">Bot Traffic</span>
+              <span class="metric-icon" aria-hidden="true">🤖</span>
+            </div>
+            <div class="metric-value-container">
+              <span class="metric-value" id="metricBotTraffic">264</span>
+              <span class="metric-pill pill-bot" id="metricBotShare">17.8%</span>
+            </div>
+            <div class="metric-card-footer">
+              <span class="metric-subtext">Automated scrapers, headless agents, and click generators.</span>
+            </div>
+          </article>
+
+          <!-- Card 4: Bot Traffic Percentage & Meter -->
+          <article class="metric-card" id="cardBotPercentage">
+            <div class="metric-card-header">
+              <span class="metric-title">Bot Traffic Rate</span>
+              <span class="metric-icon" aria-hidden="true">📊</span>
+            </div>
+            <div class="metric-value-container">
+              <span class="metric-value" id="metricBotPercentage">17.8%</span>
+              <span class="status-tag status-normal" id="metricBotStatusTag">Normal Range</span>
+            </div>
+            <div class="metric-meter-container">
+              <div class="meter-bar-track" role="progressbar" aria-valuenow="18" aria-valuemin="0" aria-valuemax="100" id="botRatioProgressBar">
+                <div class="meter-bar-fill fill-normal" id="botRatioProgressFill" style="width: 17.8%;"></div>
+              </div>
+              <div class="meter-labels">
+                <span>0% Safe</span>
+                <span>25% Warning</span>
+                <span>50%+ Critical</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5: Active / Tracked Demo Links -->
+          <article class="metric-card" id="cardActiveLinks">
+            <div class="metric-card-header">
+              <span class="metric-title">Active Demo Links</span>
+              <span class="metric-icon" aria-hidden="true">🔗</span>
+            </div>
+            <div class="metric-value-container">
+              <span class="metric-value" id="metricActiveLinks">4</span>
+              <span class="metric-chip">In-Memory</span>
+            </div>
+            <div class="metric-card-footer">
+              <span class="metric-subtext">Demonstration link identifiers actively generating telemetry.</span>
+            </div>
+          </article>
+
+          <!-- Card 6: Overall Fraud-Risk Level -->
+          <article class="metric-card" id="cardRiskLevel">
+            <div class="metric-card-header">
+              <span class="metric-title">Overall Fraud-Risk Level</span>
+              <span class="metric-icon" aria-hidden="true">🛡️</span>
+            </div>
+            <div class="metric-value-container">
+              <span class="metric-badge-risk risk-low" id="metricRiskBadge">LOW RISK</span>
+              <span class="metric-score" id="metricRiskScore">Score: 16/100</span>
+            </div>
+            <div class="metric-card-footer">
+              <span class="metric-subtext">Calculated via deterministic client-side heuristics.</span>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Overview Quick Visualizations Grid -->
+        <div class="overview-visuals-grid">
+          
+          <!-- Visual 1: Realtime Click Activity Stream -->
+          <div class="card visual-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h3 class="card-title">Simulated Click Activity Timeline</h3>
+                <span class="card-subtitle">Hourly distribution of human vs. bot requests</span>
+              </div>
+              <div class="legend-group">
+                <span class="legend-item"><span class="legend-color legend-blue"></span> Human</span>
+                <span class="legend-item"><span class="legend-color legend-amber"></span> Bot</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container" id="overviewTimelineContainer">
+                <!-- SVG / Canvas Chart Hook -->
+                <canvas id="overviewTimelineCanvas" width="600" height="220" class="responsive-chart-canvas" aria-label="Click Activity Timeline Chart" role="img"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual 2: Traffic Composition Donut & Risk Breakdown -->
+          <div class="card visual-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h3 class="card-title">Traffic Composition &amp; Risk Health</h3>
+                <span class="card-subtitle">Heuristic classification of visitor traffic</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="composition-wrapper">
+                <div class="donut-chart-box" id="overviewDonutContainer">
+                  <svg viewBox="0 0 160 160" class="donut-svg" aria-label="Traffic Composition Donut" role="img">
+                    <circle cx="80" cy="80" r="60" class="donut-ring" fill="none" stroke="#e2e8f0" stroke-width="24"></circle>
+                    <circle cx="80" cy="80" r="60" class="donut-segment segment-human" id="donutSegmentHuman" fill="none" stroke="#2563eb" stroke-width="24" stroke-dasharray="310 377" stroke-dashoffset="0"></circle>
+                    <circle cx="80" cy="80" r="60" class="donut-segment segment-bot" id="donutSegmentBot" fill="none" stroke="#f59e0b" stroke-width="24" stroke-dasharray="67 377" stroke-dashoffset="-310"></circle>
+                    <text x="80" y="75" text-anchor="middle" class="donut-center-val" id="donutCenterPct">82%</text>
+                    <text x="80" y="95" text-anchor="middle" class="donut-center-lbl">Human</text>
+                  </svg>
+                </div>
+                <div class="composition-breakdown-list">
+                  <div class="breakdown-item">
+                    <div class="item-header">
+                      <span class="item-dot dot-human"></span>
+                      <span class="item-name">Legitimate Human</span>
+                      <span class="item-val" id="compHumanCount">1,218</span>
+                    </div>
+                    <div class="item-bar"><div class="item-bar-inner bar-human" id="compHumanBar" style="width: 82.2%;"></div></div>
+                  </div>
+                  <div class="breakdown-item">
+                    <div class="item-header">
+                      <span class="item-dot dot-bot"></span>
+                      <span class="item-name">Automated Bots</span>
+                      <span class="item-val" id="compBotCount">264</span>
+                    </div>
+                    <div class="item-bar"><div class="item-bar-inner bar-bot" id="compBotBar" style="width: 17.8%;"></div></div>
+                  </div>
+                  <div class="breakdown-item">
+                    <div class="item-header">
+                      <span class="item-dot dot-flagged"></span>
+                      <span class="item-name">Suspicious Anomalies</span>
+                      <span class="item-val" id="compFlaggedCount">19</span>
+                    </div>
+                    <div class="item-bar"><div class="item-bar-inner bar-flagged" id="compFlaggedBar" style="width: 1.3%;"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- SECTION 2: LINK CREATION & MANAGEMENT                                 -->
+      <!-- ===================================================================== -->
+      <section id="section-links" class="dashboard-section" aria-labelledby="heading-links">
+        <div class="section-header">
+          <div>
+            <h2 id="heading-links" class="section-title">Link Creation &amp; Management</h2>
+            <p class="section-description">Simulate the generation of tracked short links and inspect per-link traffic telemetry.</p>
+          </div>
+        </div>
+
+        <!-- Link Generator Form Card -->
+        <div class="card creation-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3 class="card-title">Generate Simulated Demo Link</h3>
+              <span class="card-subtitle">Create a client-side tracked identifier to demonstrate telemetry modeling.</span>
+            </div>
+            <div class="card-disclaimer-pill">
+              <span class="icon">ℹ️</span> No actual URL redirection is performed
+            </div>
+          </div>
+          <div class="card-body">
+            
+            <form id="linkCreationForm" class="link-form" novalidate>
+              
+              <div class="form-row form-row-main">
+                <div class="form-group flex-grow">
+                  <label for="destinationUrlInput" class="form-label">
+                    Destination Target URL <span class="required" aria-hidden="true">*</span>
+                  </label>
+                  <div class="input-with-icon">
+                    <span class="input-icon" aria-hidden="true">🌐</span>
+                    <input 
+                      type="url" 
+                      id="destinationUrlInput" 
+                      name="destinationUrl" 
+                      class="form-control" 
+                      placeholder="https://example.com/research-paper" 
+                      required 
+                      aria-required="true"
+                      aria-describedby="urlInputHelp urlValidationFeedback">
+                  </div>
+                  <span id="urlInputHelp" class="form-text">Enter any valid hypothetical destination URL for synthetic tracking.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="linkCategorySelect" class="form-label">Campaign Type / Risk Profile</label>
+                  <select id="linkCategorySelect" name="linkCategory" class="form-select">
+                    <option value="research">Academic / Research (Low Bot Propensity)</option>
+                    <option value="social" selected>Social Media Campaign (Moderate Bot Propensity)</option>
+                    <option value="marketing">Affiliate Marketing (Elevated Scraper Propensity)</option>
+                    <option value="direct">Direct Outreach (High Human Concentration)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="linkTagInput" class="form-label">Reference Label / Tag</label>
+                  <input 
+                    type="text" 
+                    id="linkTagInput" 
+                    name="linkTag" 
+                    class="form-control" 
+                    placeholder="e.g. GLA-Paper-2026" 
+                    maxlength="30">
+                </div>
+              </div>
+
+              <!-- Quick URL Pre-fills for Testing Convenience -->
+              <div class="quick-preset-row">
+                <span class="preset-label">Quick Pre-fill Demos:</span>
+                <button type="button" class="btn-preset" data-url="https://glauniversity.in/academics/computer-engineering" data-category="research" data-tag="GLA-CEA-Portal">GLA University CEA</button>
+                <button type="button" class="btn-preset" data-url="https://github.com/abhinav/link-intelligence" data-category="direct" data-tag="GitHub-Repo">GitHub Repository</button>
+                <button type="button" class="btn-preset" data-url="https://news.ycombinator.com/item?id=381920" data-category="social" data-tag="TechForum-Post">Tech Community</button>
+              </div>
+
+              <!-- Form Submission Buttons -->
+              <div class="form-actions-row">
+                <button type="submit" class="btn btn-primary" id="generateDemoLinkBtn">
+                  <span class="btn-icon">⚡</span> Generate Demo Link
+                </button>
+                <button type="reset" class="btn btn-secondary" id="resetFormBtn">Clear Form</button>
+              </div>
+
+              <!-- Accessible Live Validation Container -->
+              <div id="urlValidationFeedback" class="feedback-alert" role="alert" aria-live="polite" style="display: none;"></div>
+            </form>
+
+            <!-- Results Card: Shown dynamically when a link is generated -->
+            <div id="generatedLinkResultCard" class="generated-result-card" style="display: none;" aria-live="polite">
+              <div class="result-header">
+                <span class="result-badge-success">✓ Demo Link Created Successfully</span>
+                <span class="result-timestamp" id="resultTimestamp">Just now</span>
+              </div>
+              <div class="result-body">
+                <div class="result-link-display">
+                  <span class="short-url-label">Simulated Link:</span>
+                  <code class="short-url-code" id="resultShortUrl">https://demo.link/glx-921</code>
+                  <button type="button" class="btn btn-sm btn-copy" id="copyShortUrlBtn" title="Copy simulated link to clipboard">
+                    <span class="copy-icon">📋</span> Copy
+                  </button>
+                </div>
+                <div class="result-destination-display">
+                  <span class="dest-label">Original Destination:</span>
+                  <span class="dest-url" id="resultDestinationUrl">https://example.com/target</span>
+                </div>
+              </div>
+              <div class="result-actions-bar">
+                <span class="action-prompt">Test Telemetry Simulator on this Link:</span>
+                <button type="button" class="btn btn-sm btn-simulate-click" id="simulateSingleClickBtn" data-link-id="">
+                  🖱️ Simulate 1 Human Click
+                </button>
+                <button type="button" class="btn btn-sm btn-simulate-bot" id="simulateSingleBotBtn" data-link-id="">
+                  🤖 Simulate 1 Bot Request
+                </button>
+                <button type="button" class="btn btn-sm btn-simulate-burst" id="simulateBurstBtn" data-link-id="">
+                  ⚡ Simulate 10x Mixed Burst
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Managed Demo Links Table Card -->
+        <div class="card table-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3 class="card-title">Tracked Demo Links Catalog</h3>
+              <span class="card-subtitle">List of simulated links currently tracked in memory.</span>
+            </div>
+            <div class="table-controls">
+              <input type="search" id="linkTableSearch" class="form-control form-control-sm" placeholder="Search by URL or Tag..." aria-label="Search links table">
+              <select id="linkTableFilter" class="form-select form-select-sm" aria-label="Filter by risk category">
+                <option value="all">All Risk Levels</option>
+                <option value="low">Low Risk Only</option>
+                <option value="medium">Medium Risk Only</option>
+                <option value="high">High Risk Only</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="data-table" id="demoLinksTable" aria-label="Simulated demo links table">
+                <thead>
+                  <tr>
+                    <th scope="col">Destination URL</th>
+                    <th scope="col">Demo Short Link</th>
+                    <th scope="col">Campaign Tag</th>
+                    <th scope="col" class="text-right">Total Clicks</th>
+                    <th scope="col" class="text-right">Human</th>
+                    <th scope="col" class="text-right">Bots</th>
+                    <th scope="col" class="text-center">Bot Rate</th>
+                    <th scope="col" class="text-center">Risk Level</th>
+                    <th scope="col" class="text-center">Simulate Action</th>
+                  </tr>
+                </thead>
+                <tbody id="linkTableBody">
+                  <!-- Populated dynamically by JS simulation engine -->
+                </tbody>
+              </table>
+
+              <!-- Empty State Container -->
+              <div id="emptyLinkState" class="empty-state-container" style="display: none;">
+                <div class="empty-icon" aria-hidden="true">🔗</div>
+                <h4 class="empty-title">No Demo Links Found</h4>
+                <p class="empty-desc">Create your first simulated link above or reset to sample demo data.</p>
+                <button type="button" class="btn btn-primary btn-sm" id="loadSampleLinksBtn">Load Sample Links</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- SECTION 3: LINK ANALYTICS                                             -->
+      <!-- ===================================================================== -->
+      <section id="section-analytics" class="dashboard-section" aria-labelledby="heading-analytics">
+        <div class="section-header">
+          <div>
+            <h2 id="heading-analytics" class="section-title">Link Analytics &amp; Deep-Dive</h2>
+            <p class="section-description">Detailed time-series telemetry and performance indicators for individual or aggregated demo links.</p>
+          </div>
+          <div class="section-actions">
+            <label for="analyticsLinkSelector" class="selector-label">Filter by Link:</label>
+            <select id="analyticsLinkSelector" class="form-select form-select-sm" aria-label="Select demo link for deep-dive analytics">
+              <option value="all" selected>All Tracked Links (Aggregate Telemetry)</option>
+              <!-- Options populated dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Selected Link Performance Stat Cards -->
+        <div class="sub-metrics-grid">
+          <div class="sub-metric-card">
+            <span class="sub-metric-label">Simulated Velocity</span>
+            <span class="sub-metric-val" id="analyticsVelocity">14.6 clicks/min</span>
+            <span class="sub-metric-hint">Current rolling arrival rate</span>
+          </div>
+          <div class="sub-metric-card">
+            <span class="sub-metric-label">Avg. Dwell Time</span>
+            <span class="sub-metric-val" id="analyticsDwell">42.8 sec</span>
+            <span class="sub-metric-hint">Human visitor session length</span>
+          </div>
+          <div class="sub-metric-card">
+            <span class="sub-metric-label">Bounce Propensity</span>
+            <span class="sub-metric-val" id="analyticsBounce">28.4%</span>
+            <span class="sub-metric-hint">Single-event interaction rate</span>
+          </div>
+          <div class="sub-metric-card">
+            <span class="sub-metric-label">Peak Velocity Timestamp</span>
+            <span class="sub-metric-val" id="analyticsPeak">14:20:00 UTC</span>
+            <span class="sub-metric-hint">Largest simulated request burst</span>
+          </div>
+        </div>
+
+        <!-- Charts Container for Link Analytics -->
+        <div class="analytics-charts-grid">
+          
+          <!-- Chart A: Interactive Time-Series -->
+          <div class="card chart-card-lg">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h3 class="card-title">Click Volume Over Simulated Timeline</h3>
+                <span class="card-subtitle">Telemetry trend over successive measurement intervals</span>
+              </div>
+              <div class="time-range-toggles" role="group" aria-label="Timeframe selection">
+                <button type="button" class="btn-time active" data-range="1h">1 Hour</button>
+                <button type="button" class="btn-time" data-range="6h">6 Hours</button>
+                <button type="button" class="btn-time" data-range="24h">24 Hours</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container" id="analyticsTimeSeriesContainer">
+                <canvas id="analyticsTimeSeriesCanvas" width="750" height="260" class="responsive-chart-canvas" aria-label="Time Series Analytics Chart" role="img"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart B: Device & Operating Environment Breakdown -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h3 class="card-title">User-Agent &amp; Device Breakdown</h3>
+                <span class="card-subtitle">Synthesized client software fingerprints</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="device-list" id="deviceBreakdownList">
+                <div class="device-row">
+                  <div class="device-info">
+                    <span class="device-icon">💻</span>
+                    <span class="device-name">Desktop (Chrome / Edge / Firefox)</span>
+                  </div>
+                  <span class="device-pct" id="pctDesktop">58.4%</span>
+                  <div class="device-bar-track"><div class="device-bar-fill" id="fillDesktop" style="width: 58.4%;"></div></div>
+                </div>
+                <div class="device-row">
+                  <div class="device-info">
+                    <span class="device-icon">📱</span>
+                    <span class="device-name">Mobile (Safari iOS / Android Chrome)</span>
+                  </div>
+                  <span class="device-pct" id="pctMobile">23.8%</span>
+                  <div class="device-bar-track"><div class="device-bar-fill" id="fillMobile" style="width: 23.8%;"></div></div>
+                </div>
+                <div class="device-row">
+                  <div class="device-info">
+                    <span class="device-icon">🤖</span>
+                    <span class="device-name">Headless Scrapers (Puppeteer / Curl / Python)</span>
+                  </div>
+                  <span class="device-pct alert" id="pctHeadless">14.6%</span>
+                  <div class="device-bar-track"><div class="device-bar-fill fill-bot" id="fillHeadless" style="width: 14.6%;"></div></div>
+                </div>
+                <div class="device-row">
+                  <div class="device-info">
+                    <span class="device-icon">🔍</span>
+                    <span class="device-name">Known Search Engine Crawlers (Googlebot / Bing)</span>
+                  </div>
+                  <span class="device-pct" id="pctCrawlers">3.2%</span>
+                  <div class="device-bar-track"><div class="device-bar-fill fill-crawler" id="fillCrawlers" style="width: 3.2%;"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- SECTION 4: TRAFFIC INSIGHTS                                           -->
+      <!-- ===================================================================== -->
+      <section id="section-traffic" class="dashboard-section" aria-labelledby="heading-traffic">
+        <div class="section-header">
+          <div>
+            <h2 id="heading-traffic" class="section-title">Traffic Insights &amp; Demographics</h2>
+            <p class="section-description">Deep inspection of simulated traffic origins, referrer channels, and anomaly clustering.</p>
+          </div>
+        </div>
+
+        <div class="insights-grid">
+          
+          <!-- Card 1: Referrer Source Distribution -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h3 class="card-title">Referrer Source Channels</h3>
+                <span class="card-subtitle">Origin points of synthetic link requests</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="referrer-list" id="referrerDistributionList">
+                <div class="referrer-item">
+                  <div class="referrer-meta">
+                    <span class="ref-channel">Direct / Bookmarked</span>
+                    <span class="ref-count" id="refDirectCount">492 clicks (33.2%)</span>
+                  </div>
+                  <div class="referrer-bar-track"><div class="referrer-bar-fill" style="width: 33.2%;"></div></div>
+                </div>
+                <div class="referrer-item">
+                  <div class="referrer-meta">
+                    <span class="ref-channel">Academic &amp; Research Portals</span>
+                    <span class="ref-count" id="refAcademicCount">388 clicks (26.2%)</span>
+                  </div>
+                  <div class="referrer-bar-track"><div class="referrer-bar-fill" style="width: 26.2%;"></div></div>
+                </div>
+                <div class="referrer-item">
+                  <div class="referrer-meta">
+                    <span class="ref-channel">Social Media Networks</span>
+                    <span class="ref-count" id="refSocialCount">312 clicks (21.1%)</span>
+                  </div>
+                  <div class="referrer-bar-track"><div class="referrer-bar-fill" style="width: 21.1%;"></div></div>
+                </div>
+                <div class="referrer-item">
+                  <div class="referrer-meta">
+                    <span class="ref-channel">Search Engines (Organic)</span>
+                    <span class="ref-count" id="refSearchCount">210 clicks (14.2%)</span>
+                  </div>
+                  <div class="referrer-bar-track"><div class="referrer-bar-fill" style="width: 14.2%;"></div></div>
+                </div>
+                <div class="referrer-item">
+                  <div class="referrer-meta">
+                    <span class="ref-channel alert">Spoofed / Stripped Referrer Headers (Bots)</span>
+                    <span class="ref-count alert" id="refSpoofedCount">80 clicks (5.4%)</span>
+                  </div>
+                  <div class="referrer-bar-track"><div class="referrer-bar-fill fill-bot" style="width: 5.4%;"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Simulated Regional Telemetry -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h3 class="card-title">Simulated Geographic Hubs</h3>
+                <span class="card-subtitle">Synthesized IP origin clusters and anomaly flags</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="geo-table-wrapper">
+                <table class="geo-table" aria-label="Simulated geographic traffic table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Region Hub</th>
+                      <th scope="col" class="text-right">Clicks</th>
+                      <th scope="col" class="text-right">Bot Share</th>
+                      <th scope="col" class="text-center">Flag Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="geoTableBody">
+                    <tr>
+                      <td>🇮🇳 India (North / Mathura &amp; NCR)</td>
+                      <td class="text-right">612</td>
+                      <td class="text-right">8.4%</td>
+                      <td class="text-center"><span class="badge-status-ok">Normal</span></td>
+                    </tr>
+                    <tr>
+                      <td>🇺🇸 North America (East &amp; West)</td>
+                      <td class="text-right">420</td>
+                      <td class="text-right">16.2%</td>
+                      <td class="text-center"><span class="badge-status-ok">Normal</span></td>
+                    </tr>
+                    <tr>
+                      <td>🇪🇺 Western Europe</td>
+                      <td class="text-right">248</td>
+                      <td class="text-right">14.1%</td>
+                      <td class="text-center"><span class="badge-status-ok">Normal</span></td>
+                    </tr>
+                    <tr>
+                      <td>🌐 Data Center Subnets (AWS / Hetzner / OVH)</td>
+                      <td class="text-right">142</td>
+                      <td class="text-right">84.5%</td>
+                      <td class="text-center"><span class="badge-status-warn">Cloud Proxy</span></td>
+                    </tr>
+                    <tr>
+                      <td>🏴 Anonymous Tor Exit Relays</td>
+                      <td class="text-right">60</td>
+                      <td class="text-right">92.0%</td>
+                      <td class="text-center"><span class="badge-status-danger">High Risk</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- SECTION 5: FRAUD & RISK ASSESSMENT                                    -->
+      <!-- ===================================================================== -->
+      <section id="section-risk" class="dashboard-section" aria-labelledby="heading-risk">
+        <div class="section-header">
+          <div>
+            <h2 id="heading-risk" class="section-title">Rule-Based Fraud-Risk Engine</h2>
+            <p class="section-description">Transparent, deterministic client-side heuristics evaluating simulated clickstream anomalies without proprietary black-boxes.</p>
+          </div>
+          <div class="section-actions">
+            <button type="button" class="btn btn-danger btn-sm" id="triggerBotSpikeActionBtn">
+              <span class="btn-icon">⚡</span> Trigger Bot Wave
+            </button>
+          </div>
+        </div>
+
+        <!-- Overall Risk Scorecard Hero Banner -->
+        <div class="risk-hero-card" id="riskHeroCard">
+          <div class="risk-score-display">
+            <div class="risk-score-circle" id="riskScoreCircle">
+              <span class="score-number" id="riskHeroScoreNumber">16</span>
+              <span class="score-denom">/ 100</span>
+            </div>
+            <div class="risk-status-info">
+              <div class="status-badge-row">
+                <span class="risk-badge-lg badge-low" id="riskHeroBadge">LOW RISK STATUS</span>
+                <span class="engine-tag">Deterministic Engine Active</span>
+              </div>
+              <p class="risk-summary-text" id="riskSummaryText">
+                Simulated traffic exhibits normal human browsing patterns. The bot-to-human ratio is below threshold limits, and no persistent rapid-fire click bursts or anomalous user-agent clusters were detected.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Heuristics Rules Matrix -->
+        <div class="card rules-matrix-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3 class="card-title">Heuristic Rules Evaluation Matrix</h3>
+              <span class="card-subtitle">Deterministic conditions evaluated on every incoming simulated event</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="rules-grid">
+
+              <!-- Rule 1 -->
+              <div class="rule-card" id="ruleCardBotRatio">
+                <div class="rule-header">
+                  <span class="rule-tag">Rule #1</span>
+                  <span class="rule-status-badge status-pass" id="ruleStatusBotRatio">PASS</span>
+                </div>
+                <h4 class="rule-title">Automated Bot Ratio Threshold</h4>
+                <p class="rule-desc">Flags when simulated bot events exceed safe baselines for the selected campaign category.</p>
+                <div class="rule-condition">
+                  <strong>Thresholds:</strong> &gt;25% Warning • &gt;45% High Risk
+                </div>
+                <div class="rule-current-val">
+                  Current Ratio: <strong id="ruleValBotRatio">17.8%</strong>
+                </div>
+              </div>
+
+              <!-- Rule 2 -->
+              <div class="rule-card" id="ruleCardVelocity">
+                <div class="rule-header">
+                  <span class="rule-tag">Rule #2</span>
+                  <span class="rule-status-badge status-pass" id="ruleStatusVelocity">PASS</span>
+                </div>
+                <h4 class="rule-title">High-Frequency Click Burst Velocity</h4>
+                <p class="rule-desc">Detects unnatural clusters of requests arriving within microsecond windows from identical origins.</p>
+                <div class="rule-condition">
+                  <strong>Thresholds:</strong> &gt;12 clicks/3-sec window
+                </div>
+                <div class="rule-current-val">
+                  Peak Burst: <strong id="ruleValVelocity">4 clicks/3-sec</strong>
+                </div>
+              </div>
+
+              <!-- Rule 3 -->
+              <div class="rule-card" id="ruleCardUserAgent">
+                <div class="rule-header">
+                  <span class="rule-tag">Rule #3</span>
+                  <span class="rule-status-badge status-pass" id="ruleStatusUserAgent">PASS</span>
+                </div>
+                <h4 class="rule-title">Headless User-Agent Signatures</h4>
+                <p class="rule-desc">Flags known automated web scrapers, crawler libraries (Python-requests, Curl, Puppeteer) lacking standard headers.</p>
+                <div class="rule-condition">
+                  <strong>Thresholds:</strong> &gt;15% scraper presence
+                </div>
+                <div class="rule-current-val">
+                  Headless Presence: <strong id="ruleValUserAgent">14.6%</strong>
+                </div>
+              </div>
+
+              <!-- Rule 4 -->
+              <div class="rule-card" id="ruleCardIpConcentration">
+                <div class="rule-header">
+                  <span class="rule-tag">Rule #4</span>
+                  <span class="rule-status-badge status-pass" id="ruleStatusIpConcentration">PASS</span>
+                </div>
+                <h4 class="rule-title">Subnet IP Concentration</h4>
+                <p class="rule-desc">Identifies suspicious pooling of repetitive clicks from identical simulated /24 CIDR subnets or proxy exit nodes.</p>
+                <div class="rule-condition">
+                  <strong>Thresholds:</strong> &gt;20 clicks from single /24
+                </div>
+                <div class="rule-current-val">
+                  Max Subnet Pool: <strong id="ruleValIpConcentration">7 clicks</strong>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Suspicious Activity Audit Stream -->
+        <div class="card audit-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3 class="card-title">Suspicious Click Audit Trail</h3>
+              <span class="card-subtitle">Realtime chronological feed of synthetic events flagged by heuristic rules</span>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" id="clearAuditLogBtn">Clear Log</button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="data-table audit-table" aria-label="Suspicious click audit log">
+                <thead>
+                  <tr>
+                    <th scope="col">Timestamp</th>
+                    <th scope="col">Demo Link ID</th>
+                    <th scope="col">Simulated Origin IP</th>
+                    <th scope="col">User-Agent Profile</th>
+                    <th scope="col">Triggered Rule</th>
+                    <th scope="col" class="text-center">Severity</th>
+                  </tr>
+                </thead>
+                <tbody id="suspiciousEventsTableBody">
+                  <!-- Populated dynamically by RiskEngine -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="transparency-note">
+          <strong>Academic Transparency Statement:</strong> The risk scores and audit entries displayed above are produced by an open-source, deterministic rule engine running locally in your browser. No external API calls, tracking cookies, machine-learning cloud services, or real fraud enforcement actions take place.
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- SECTION 6: ABOUT PROJECT & ACADEMIC ATTRIBUTION                       -->
+      <!-- ===================================================================== -->
+      <section id="section-about" class="dashboard-section" aria-labelledby="heading-about">
+        <div class="section-header">
+          <div>
+            <h2 id="heading-about" class="section-title">About Project &amp; Academic Documentation</h2>
+            <p class="section-description">Project overview, academic credentials, and team division of responsibilities.</p>
+          </div>
+        </div>
+
+        <!-- Academic Credentials Hero -->
+        <div class="academic-hero-card">
+          <div class="uni-brand-header">
+            <div class="uni-logo-placeholder" aria-hidden="true">🏛️</div>
+            <div class="uni-text">
+              <h3 class="uni-name">GLA University, Mathura</h3>
+              <p class="uni-dept">Department of Computer Engineering &amp; Applications</p>
+            </div>
+          </div>
+          <div class="academic-details-grid">
+            <div class="cred-item">
+              <span class="cred-label">Project Title:</span>
+              <strong class="cred-value">Link Intelligence and Analytics Dashboard</strong>
+            </div>
+            <div class="cred-item">
+              <span class="cred-label">Student Name:</span>
+              <strong class="cred-value">Abhinav Gautam</strong>
+            </div>
+            <div class="cred-item">
+              <span class="cred-label">University Roll Number:</span>
+              <strong class="cred-value">2415000031</strong>
+            </div>
+            <div class="cred-item">
+              <span class="cred-label">Assigned Module:</span>
+              <strong class="cred-value highlight">HTML + Dashboard UI</strong>
+            </div>
+            <div class="cred-item">
+              <span class="cred-label">Faculty Mentor:</span>
+              <strong class="cred-value">Mr. Gagan Vishwakarma</strong>
+            </div>
+            <div class="cred-item">
+              <span class="cred-label">Execution Environment:</span>
+              <strong class="cred-value">100% Client-Side Web Application</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Synopsis Card -->
+        <div class="card info-card">
+          <div class="card-header">
+            <h3 class="card-title">Official Project Synopsis</h3>
+          </div>
+          <div class="card-body synopsis-body">
+            <p class="lead-text">
+              I am developing a web-based dashboard that demonstrates link intelligence, simulated link analytics, and rule-based fraud-risk assessment. The system generates simulated click and bot-traffic data entirely on the client side. It does not perform real URL shortening or redirection, collect real user traffic, or require a backend server.
+            </p>
+            <p>
+              My responsibility is to implement the HTML structure and dashboard UI foundation. Other team members are responsible for CSS and responsive styling, JavaScript-based click/bot traffic simulation, and charts/analytics plus the fraud-risk rules engine.
+            </p>
+          </div>
+        </div>
+
+        <!-- Team Responsibility Matrix -->
+        <div class="card info-card">
+          <div class="card-header">
+            <h3 class="card-title">Team Division of Responsibilities</h3>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="data-table" aria-label="Team responsibilities matrix">
+                <thead>
+                  <tr>
+                    <th scope="col">Module / Responsibility</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Deliverables &amp; Code Surface</th>
+                    <th scope="col">Integration Surface</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="highlight-my-row">
+                    <td><strong>HTML + Dashboard UI</strong></td>
+                    <td><span class="badge-self">Abhinav Gautam (2415000031)</span></td>
+                    <td>Semantic HTML5 shell, navigation, metric cards, URL creation form, tables, analytics containers, fraud-risk panels, ARIA accessibility.</td>
+                    <td><code>index.html</code>, DOM IDs, semantic tags, data attributes</td>
+                  </tr>
+                  <tr>
+                    <td><strong>CSS &amp; Responsive Styling</strong></td>
+                    <td>Teammate (CSS Lead)</td>
+                    <td>Modern UI design system, responsive flexbox &amp; CSS grid layouts, color palettes, dark/light accents, mobile responsiveness.</td>
+                    <td><code>css/style.css</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Traffic Simulation Engine</strong></td>
+                    <td>Teammate (Simulation Lead)</td>
+                    <td>Client-side clickstream generation, synthetic bot &amp; human traffic algorithms, randomized user agents, referrers, and burst events.</td>
+                    <td><code>js/simulation.js</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Analytics &amp; Fraud-Risk Engine</strong></td>
+                    <td>Teammate (Analytics Lead)</td>
+                    <td>Time-series chart rendering (Canvas/SVG), ratio calculations, and transparent heuristic rule evaluation for risk scoring.</td>
+                    <td><code>js/analytics.js</code>, <code>js/risk-engine.js</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- APPLICATION FOOTER                                                        -->
+  <!-- ========================================================================= -->
+  <footer class="app-footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span class="footer-title">Link Intelligence &amp; Analytics Dashboard</span>
+        <span class="footer-sep">|</span>
+        <span class="footer-sub">Academic Demonstration Prototype</span>
+      </div>
+      <div class="footer-center">
+        <span>GLA University, Mathura • Department of Computer Engineering &amp; Applications</span>
+      </div>
+      <div class="footer-right">
+        <span>Student: <strong>Abhinav Gautam</strong> (Roll: 2415000031)</span>
+        <span class="footer-sep">•</span>
+        <span>Mentor: <strong>Mr. Gagan Vishwakarma</strong></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Scripts -->
+  <script src="js/simulation.js"></script>
+  <script src="js/risk-engine.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
