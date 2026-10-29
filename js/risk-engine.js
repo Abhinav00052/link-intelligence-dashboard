@@ -132,3 +132,4 @@
 
   window.RiskEngine = new FraudRiskEngine();
 })();
+

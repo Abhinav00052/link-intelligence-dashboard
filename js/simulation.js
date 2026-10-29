@@ -259,3 +259,4 @@
   // Export globally for UI and teammates' integration
   window.SimulationEngine = new TrafficSimulator();
 })();
+

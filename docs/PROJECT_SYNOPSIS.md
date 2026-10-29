@@ -64,3 +64,4 @@ As assigned, Abhinav Gautam's responsibility encompasses the foundational user i
 
 6. **Academic & Project Metadata:**
    - Dedicated "About Project" section detailing GLA University credentials, faculty mentorship, student roll number, and module documentation.
+
